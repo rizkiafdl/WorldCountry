@@ -33,7 +33,7 @@ const SectionMission = () => {
                 className="mt-6"
             >
                 <img
-                    src="src/assets/nasa-2-unsplash.jpg"
+                    src="/images/nasa-2-unsplash.jpg"
                     alt="World View"
                     className="rounded-lg shadow-lg"
                     width="500" height="600"

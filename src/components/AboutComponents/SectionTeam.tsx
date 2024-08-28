@@ -53,7 +53,7 @@ const SectionTeam = () => {
             >
                 <figure>
                     <motion.img
-                        src="src/assets/Rizki.jpg"
+                        src="/images/Rizki.jpg"
                         alt="Muhammad Rizki Afdolli"
                         className="rounded-lg"
                         whileHover={{ scale: 1.05 }}
