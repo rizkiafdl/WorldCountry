@@ -6,18 +6,17 @@ import { useAtom } from 'jotai';
 import { isFromGlobeAtom } from '@/StateManagement/atoms';
 
 interface CountryData {
-    name: {
-        common: string;
-    };
+    name: string;
     latlng: [number, number];
 }
+
 
 const CountryNamesOn3DGlobe: React.FC = () => {
     const [countries, setCountries] = useState<CountryData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [globeDimensions, setGlobeDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
-    const navigate = useNavigate();
+    const navigate = useNavigate(); 
     const [, setIsFromGlobe] = useAtom<boolean>(isFromGlobeAtom);
 
     useEffect(() => {
@@ -27,7 +26,7 @@ const CountryNamesOn3DGlobe: React.FC = () => {
                 const countriesData = response.data
                     .filter((country: any) => country.latlng && country.latlng.length === 2)
                     .map((country: any) => ({
-                        name: country.name.common,
+                        name: country.name.common, // Directly using the name as a string
                         latlng: country.latlng,
                     }));
                 setCountries(countriesData);
@@ -41,6 +40,8 @@ const CountryNamesOn3DGlobe: React.FC = () => {
 
         fetchCountries();
     }, []);
+
+
 
     useEffect(() => {
         const handleResize = () => {
@@ -58,7 +59,7 @@ const CountryNamesOn3DGlobe: React.FC = () => {
     }, []);
 
     const handleLabelClick = (countryName: string) => {
-        navigate(`/country/${countryName.toLowerCase()}`);
+        navigate(`/country/${countryName.toLowerCase()}`); 
     };
 
     if (loading) {
@@ -95,22 +96,21 @@ const CountryNamesOn3DGlobe: React.FC = () => {
                     labelsData={countries}
                     width={globeDimensions.width}
                     height={globeDimensions.height}
-                    labelLat={(d: CountryData) => d.latlng[0]}
-                    labelLng={(d: CountryData) => d.latlng[1]}
-                    labelText={(d: CountryData) => d.name}
+                    labelLat={(d: object) => (d as CountryData).latlng[0]}
+                    labelLng={(d: object) => (d as CountryData).latlng[1]}
+                    labelText={(d: object) => (d as CountryData).name} // Using name directly as a string
                     labelSize={1.5}
                     labelColor={() => 'rgba(255, 165, 0, 0.75)'}
                     labelDotRadius={0.5}
                     labelResolution={2}
                     animateIn={true}
-                    animateRotateSpeed={0.5}
-                    autoRotate={true}
-                    autoRotateSpeed={0.2}
-                    onLabelClick={(d: CountryData) => {
-                        handleLabelClick(d.name);
+                    onLabelClick={(d: object) => {
+                        const country = d as CountryData;
+                        handleLabelClick(country.name);
                         setIsFromGlobe(true);
                     }}
                 />
+
             </div>
         </div>
     );

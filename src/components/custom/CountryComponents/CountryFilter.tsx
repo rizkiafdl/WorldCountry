@@ -20,6 +20,7 @@ interface CountryData {
     };
 }
 
+
 const CountryFilter = () => {
     const [regions, setRegions] = useState<string[]>([]);
     const [languages, setLanguages] = useState<string[]>([]);
@@ -34,7 +35,7 @@ const CountryFilter = () => {
         const fetchRegionsAndLanguages = async () => {
             try {
                 const { regions, languages } = await fetchAllRegionsAndLanguages();
-                setRegions(regions);
+                setRegions(regions as string[]);
                 setLanguages(languages);
             } catch (error) {
                 console.error("Error fetching regions and languages:", error);
