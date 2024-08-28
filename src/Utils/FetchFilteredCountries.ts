@@ -1,19 +1,24 @@
 import axios from "axios";
 
 
+interface Country {
+    region: string;
+    languages?: { [key: string]: string };
+}
+
 export const fetchAllRegionsAndLanguages = async () => {
     try {
         const response = await axios.get('https://restcountries.com/v3.1/all');
-        const countries = response.data;
+        const countries: Country[] = response.data;
 
         // Extract unique regions
-        const regions = Array.from(new Set(countries.map((country: any) => country.region))).filter(Boolean);
+        const regions = Array.from(new Set(countries.map((country) => country.region))).filter(Boolean);
 
         // Extract unique languages
         const languagesSet = new Set<string>();
-        countries.forEach((country: any) => {
+        countries.forEach((country) => {
             if (country.languages) {
-                Object.values(country.languages).forEach((language: string) => {
+                Object.values(country.languages).forEach((language) => {
                     languagesSet.add(language);
                 });
             }
